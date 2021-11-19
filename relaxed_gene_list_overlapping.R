@@ -34,12 +34,31 @@ combo_data <- purrr::map_df(filenames,
 
 write.csv(combo_data, 
           file = "gene_list_combo_data.csv")
+combo_data = read.csv(file = "gene_list_combo_data.csv")
 
-#need to be corrected
-overlap_3 = combo_data %>% 
-  filter(Gene %in% c("EPC2","FOXJ2","GABRR2","KCNMA1","LCORL",
-                     "LRP1B","MATR3","MUC6","PCDH7","USH2A","ZFHX3"))
 
-write.csv(overlap_3, 
-          file = "overlap_3_combo_data.csv")
+overlap_3_and_4_gene_list <- c("FOXJ2", "KCNMA1", "ZFHX3", "ABCC1", "ANKRD17", "APOBEC3G", "ARID1B", "CHD3", "DAB2IP", "DHX37", "DLGAP3", "DLX6", "DUSP27", "EGR1", "EPC2", "GABRR2", "HERC2", "IGF1R", "KMT2D", "LCORL", "LILRB1", "LRP1B", "MATR3", "MUC16", "MUC6", "NFIX", "PCDH10", "PCDH19", "PCDH7", "PPM1E", "PRDM8", "RBM14", "REV3L", "RYR1", "SETDB1", "SFRP1", "TENM2", "TNRC6C", "TTN", "USH2A", "ZAK", "ZNF592")
 
+overlap_3_and_4_combo_data = combo_data %>% 
+  filter(Gene %in% overlap_3_and_4_gene_list)
+
+write.csv(overlap_3_and_4_combo_data, 
+          file = "overlap_3_and_4_combo_data.csv")
+
+OB_contain_gene_data = overlap_3_and_4_combo_data %>% 
+  filter(filename == "LFS-OBD7-MSC.anno_YTC.csv")
+OB_contain_gene_list <- OB_contain_gene_data[,"Gene"]
+
+overlap_3_and_4_combo_data_containing_OB = 
+  overlap_3_and_4_combo_data %>% 
+  filter(Gene %in% OB_contain_gene_list == TRUE)
+
+write.csv(overlap_3_and_4_combo_data_containing_OB,
+          file = "overlap_3_and_4_combo_data_containing_OB.csv")
+
+overlap_3_and_4_combo_data_not_containing_OB = 
+  overlap_3_and_4_combo_data %>% 
+  filter(Gene %in% OB_contain_gene_list == FALSE)
+
+write.csv(overlap_3_and_4_combo_data_not_containing_OB,
+          file = "overlap_3_and_4_combo_data_not_containing_OB.csv")
