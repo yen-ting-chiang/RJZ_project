@@ -35,7 +35,7 @@ combo_data <- purrr::map_df(filenames,
 write.csv(combo_data, 
           file = "gene_list_combo_data.csv")
 
-
+#need to be corrected
 overlap_3 = combo_data %>% 
   filter(Gene %in% c("EPC2","FOXJ2","GABRR2","KCNMA1","LCORL",
                      "LRP1B","MATR3","MUC6","PCDH7","USH2A","ZFHX3"))
