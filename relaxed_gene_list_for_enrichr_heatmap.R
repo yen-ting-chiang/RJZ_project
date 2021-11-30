@@ -175,41 +175,86 @@ dbs_list <- c("GO_Biological_Process_2021",
               "ENCODE_and_ChEA_Consensus_TFs_from_ChIP-X")
 
 
-input_gene_list <- gene_T5_single_name[,1]
+input_gene_list <- gene_anytwo_single_name[,3]
 if (websiteLive) {
   enriched <- enrichr(input_gene_list, dbs_list)
 }
 save(enriched,
-     file = "enriched_gene_T5_single_name.rdata")
-a <- enriched[["GO_Biological_Process_2021"]]
-b <- a %>% 
+     file = "enriched_gene_anytwo_single_name.rdata")
+
+
+load("enriched_gene_OB_single_name.rdata")
+enriched_gene_OB_single_name <- enriched
+OB <- enriched_gene_OB_single_name[["KEGG_2021_Human"]]%>% 
   mutate(log_P.value = -log10(P.value)) %>% 
   arrange(desc(log_P.value))
-write.csv(b, file = "gene_T5_single_name_GO_BP.csv")
+write.csv(OB, file = "gene_OB_single_name_KEGG.csv")
+
+load("enriched_gene_T2_single_name.rdata")
+enriched_gene_T2_single_name <- enriched
+T2 <- enriched_gene_T2_single_name[["KEGG_2021_Human"]]%>% 
+  mutate(log_P.value = -log10(P.value)) %>% 
+  arrange(desc(log_P.value))
+write.csv(T2, file = "gene_T2_single_name_KEGG.csv")
+
+load("enriched_gene_T4_single_name.rdata")
+enriched_gene_T4_single_name <- enriched
+T4 <- enriched_gene_T4_single_name[["KEGG_2021_Human"]]%>% 
+  mutate(log_P.value = -log10(P.value)) %>% 
+  arrange(desc(log_P.value))
+write.csv(T4, file = "gene_T4_single_name_KEGG.csv")
+
+load("enriched_gene_T5_single_name.rdata")
+enriched_gene_T5_single_name <- enriched
+T5 <- enriched_gene_T5_single_name[["KEGG_2021_Human"]]%>% 
+  mutate(log_P.value = -log10(P.value)) %>% 
+  arrange(desc(log_P.value))
+write.csv(T5, file = "gene_T5_single_name_KEGG.csv")
+
+load("enriched_gene_anytwo_not_OB_single_name.rdata")
+enriched_gene_anytwo_not_OB_single_name <- enriched
+anytwo_not_OB <- enriched_gene_anytwo_not_OB_single_name[["KEGG_2021_Human"]]%>% 
+  mutate(log_P.value = -log10(P.value)) %>% 
+  arrange(desc(log_P.value))
+write.csv(anytwo_not_OB, file = "gene_anytwo_not_OB_single_name_KEGG.csv")
+
+load("enriched_gene_anytwo_single_name.rdata")
+enriched_gene_anytwo_single_name <- enriched
+anytwo <- enriched_gene_anytwo_single_name[["KEGG_2021_Human"]]%>% 
+  mutate(log_P.value = -log10(P.value)) %>% 
+  arrange(desc(log_P.value))
+write.csv(anytwo, file = "gene_anytwo_single_name_KEGG.csv")
 
 
-gene_OB_single_name_GO_BP <- read.csv("gene_OB_single_name_GO_BP.csv")
-gene_T2_single_name_GO_BP <- read.csv("gene_T2_single_name_GO_BP.csv")
-gene_T4_single_name_GO_BP <- read.csv("gene_T4_single_name_GO_BP.csv")
-gene_T5_single_name_GO_BP <- read.csv("gene_T5_single_name_GO_BP.csv")
-gene_anyone_not_OB_single_name_GO_BP <- read.csv("gene_anyone_not_OB_single_name_GO_BP.csv")
-gene_anytwo_not_OB_single_name_GO_BP <- read.csv("gene_anytwo_not_OB_single_name_GO_BP.csv")
+# a <- enriched[["GO_Biological_Process_2021"]]
+# b <- a %>% 
+#   mutate(log_P.value = -log10(P.value)) %>% 
+#   arrange(desc(log_P.value))
+# write.csv(b, file = "gene_anytwo_single_name_GO_BP.csv")
 
 
-join_1 = full_join(gene_anyone_not_OB_single_name_GO_BP,
-                            gene_OB_single_name_GO_BP,
+gene_OB_single_name_KEGG <- read.csv("gene_OB_single_name_KEGG.csv")
+gene_T2_single_name_KEGG <- read.csv("gene_T2_single_name_KEGG.csv")
+gene_T4_single_name_KEGG <- read.csv("gene_T4_single_name_KEGG.csv")
+gene_T5_single_name_KEGG <- read.csv("gene_T5_single_name_KEGG.csv")
+gene_anytwo_not_OB_single_name_KEGG <- read.csv("gene_anytwo_not_OB_single_name_KEGG.csv")
+gene_anytwo_single_name_KEGG <- read.csv("gene_anytwo_single_name_KEGG.csv")
+
+
+join_1 = full_join(gene_OB_single_name_KEGG,
+                   gene_T2_single_name_KEGG,
                             by = c("Term" = "Term"),
-                            suffix = c(".one", ".OB"),
+                            suffix = c(".OB", ".T2"),
                             keep = FALSE)
-join_2 = full_join(gene_T2_single_name_GO_BP,
-                   gene_T4_single_name_GO_BP,
+join_2 = full_join(gene_T4_single_name_KEGG,
+                   gene_T5_single_name_KEGG,
                    by = c("Term" = "Term"),
-                   suffix = c(".T2", ".T4"),
+                   suffix = c(".T4", ".T5"),
                    keep = FALSE)
-join_3 = full_join(gene_T5_single_name_GO_BP,
-                   gene_anytwo_not_OB_single_name_GO_BP,
+join_3 = full_join(gene_anytwo_not_OB_single_name_KEGG,
+                   gene_anytwo_single_name_KEGG,
                    by = c("Term" = "Term"),
-                   suffix = c(".T5", ".two"),
+                   suffix = c(".2-OB", ".two"),
                    keep = FALSE)
 join4 = full_join(join_1, join_2, 
                   by = c("Term" = "Term"),
@@ -217,11 +262,13 @@ join4 = full_join(join_1, join_2,
 join5 = full_join(join4, join_3, 
                   by = c("Term" = "Term"),
                   keep = FALSE)
-join6 = join5 %>% select(Term, starts_with("log_P.value")) %>% 
-  head(30L)
-write.csv(join6, file = "for_enrichr_GO_BP_clustering.csv")
+write.csv(join5, file = "for_enrichr_KEGG_clustering_all.csv")
 
-if (websiteLive) plotEnrich(gene_anytwo_not_OB_single_name_GO_BP, 
+join6 = join5 %>% select(Term, starts_with("log_P.value")) %>% 
+  arrange(desc(log_P.value.two))
+write.csv(join6, file = "for_enrichr_KEGG_clustering_log_pvalue_anytwo.csv")
+
+if (websiteLive) plotEnrich(gene_anytwo_single_name_KEGG, 
                             showTerms = 30, 
                             numChar = 100, 
                             y = "Count", 
