@@ -268,11 +268,22 @@ join6 = join5 %>% select(Term, starts_with("log_P.value")) %>%
   arrange(desc(log_P.value.two))
 write.csv(join6, file = "for_enrichr_KEGG_clustering_log_pvalue_anytwo.csv")
 
-if (websiteLive) plotEnrich(gene_anytwo_single_name_KEGG, 
+
+load("enriched_gene_anytwo_single_name.rdata")
+if (websiteLive) plotEnrich(enriched[["GO_Biological_Process_2021"]], 
                             showTerms = 30, 
                             numChar = 100, 
                             y = "Count", 
                             orderBy = "P.value")
+
+library(ggplot2)
+a <- enriched[["GO_Biological_Process_2021"]] %>% 
+  arrange(P.value) %>% 
+  head(20L)
+plot1 <- ggplot(a, 
+                aes(x = Term)) +
+  geom_bar()
+plot1
 
 library(dplyr)
 bind_all_result = enriched %>% 

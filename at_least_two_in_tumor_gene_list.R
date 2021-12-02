@@ -42,8 +42,8 @@ write.csv(combo_data,
           file = "gene_list_combo_data.csv")
 combo_data = read.csv(file = "gene_list_combo_data.csv")
 
-at_least_two_tumor_gene_list <- read.csv("at_least_two_gene_list.txt")
-
+at_least_two_tumor_gene_list <- 
+  read.csv("at_least_two_gene_list.txt")
 
 at_least_two_tumor_combo_data = combo_data %>% 
   filter(Gene %in% at_least_two_tumor_gene_list[,1])
@@ -51,4 +51,16 @@ at_least_two_tumor_combo_data = combo_data %>%
 write.csv(at_least_two_tumor_combo_data, 
           file = "at_least_two_tumor_combo_data.csv")
 
+at_least_two_tumor_combo_data <- 
+  read.csv("at_least_two_tumor_combo_data.csv")
 
+
+at_least_two_tumor_gene_list_histone <- 
+  read.csv("at_least_two_gene_list_histone.txt")
+
+at_least_two_tumor_combo_data_histone_modification <- 
+  at_least_two_tumor_combo_data %>% 
+  filter(Gene %in% at_least_two_tumor_gene_list_histone[,1])
+
+write.csv(at_least_two_tumor_combo_data_histone_modification, 
+          file = "at_least_two_tumor_combo_data_histone_modification.csv")
