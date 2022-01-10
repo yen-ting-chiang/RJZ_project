@@ -106,7 +106,7 @@ gene_number = gene_list %>%
 write.csv(gene_number, file = "gene_number.csv")
 gene_number <- read.csv(file = "gene_number.csv")
 
-# read manual generated at_least_2 mutation gene list------------
+# read manually generated at_least_2 mutation gene list------------
 gene_number_at_least_2 <- 
   read.csv(file = "gene_number_at_least_2.csv")
 gene_number_at_least_2_list <- gene_number_at_least_2[,2]
@@ -270,6 +270,7 @@ write.csv(join6, file = "for_enrichr_KEGG_clustering_log_pvalue_anytwo.csv")
 
 
 load("enriched_gene_anytwo_single_name.rdata")
+
 if (websiteLive) plotEnrich(enriched[["GO_Biological_Process_2021"]], 
                             showTerms = 30, 
                             numChar = 100, 
@@ -294,4 +295,31 @@ bind_all_result = enriched %>%
 write.csv(bind_all_result, file = "LFS_OS_any2or3_enrichr_bind_all_result.csv")
 
 
+
+
+BioPlanet_2019_table_selected <- 
+  read.csv("BioPlanet_2019_table_selected.csv")
+
+library("enrichR")
+listEnrichrSites()
+setEnrichrSite("Enrichr") # Human genes
+websiteLive <- TRUE
+dbs <- listEnrichrDbs()
+if (is.null(dbs)) websiteLive <- FALSE
+if (websiteLive) head(dbs)
+
+if (websiteLive) plotEnrich(BioPlanet_2019_table_selected, 
+                            showTerms = 21, 
+                            numChar = 60, 
+                            y = "Count", 
+                            orderBy = "Term")
+
+library(ggplot2)
+a <- enriched[["GO_Biological_Process_2021"]] %>% 
+  arrange(P.value) %>% 
+  head(20L)
+plot1 <- ggplot(a, 
+                aes(x = Term)) +
+  geom_bar()
+plot1
 
