@@ -1,4 +1,4 @@
-#Files for enrichr heatmap generation (regardless of OB):
+#Files for enrichr heatmap generation (regardless of OB):-------------------
 
 setwd("C:/Users/dannyj/Documents/Rproject/RJZ_project/regardless_of_OB_enrichr_heatmap")
 getwd()
@@ -92,3 +92,25 @@ write.csv(join_3, file = "for_enrichr_GO_BP_clustering_all.csv")
 join_4 = join_3 %>% select(Term, starts_with("log_P.value")) %>% 
   arrange(desc(log_P.value.at_least_2))
 write.csv(join_4, file = "for_enrichr_GO_BP_clustering_log_pvalue_at_least_2_arranged.csv")
+
+
+
+
+#for creating BioPlanet_2019 figure (selected term)-------------------------
+
+BioPlanet_2019_table_selected <- 
+  read.csv("BioPlanet_2019_table_selected.csv")
+
+library("enrichR")
+listEnrichrSites()
+setEnrichrSite("Enrichr") # Human genes
+websiteLive <- TRUE
+dbs <- listEnrichrDbs()
+if (is.null(dbs)) websiteLive <- FALSE
+if (websiteLive) head(dbs)
+
+if (websiteLive) plotEnrich(BioPlanet_2019_table_selected, 
+                            showTerms = 21, 
+                            numChar = 60, 
+                            y = "Count", 
+                            orderBy = "Term")
