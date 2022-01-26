@@ -35,7 +35,7 @@ theme_Publication <- function(base_size=14, base_family="Arial") {
             legend.key = element_rect(colour = NA),
             legend.position = "bottom",
             legend.direction = "horizontal",
-            legend.key.size= unit(0.7, "cm"),
+            legend.key.size= unit(0.9, "cm"),
             legend.margin = unit(0, "cm"),
             legend.title = element_text(face="italic"),
             plot.margin=unit(c(10,5,5,5),"mm"),
@@ -49,8 +49,8 @@ ggplot(data = TCGA_mutation_TP53_genomic_co_occurrence_filtered,
        aes(x = Gene, y = Log.Ratio, fill = q.Value)) + 
   geom_col() + 
   coord_flip() + 
-  scale_fill_gradient(low="red", high="blue") + 
-  scale_y_continuous() + 
+  scale_fill_gradientn(colours = terrain.colors(10),
+                       trans = "log10") + 
   theme_Publication() + 
   theme(panel.border = 
           element_rect(colour = "black", 
