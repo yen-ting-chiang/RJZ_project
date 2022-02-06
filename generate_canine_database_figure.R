@@ -47,13 +47,16 @@ annotated_expression_data_with_CV <-
 at_least_2_tumor_list <- 
   read.csv("at_least_2_tumor_list.csv")
 
-annotated_expression_data_with_CV_filtered = 
-  annotated_expression_data_with_CV %>% 
+survival_data <- read.csv(file = "survival_data.csv")
+
+annotated_expression_data_filtered = 
+  annotated_expression_data %>% 
   filter(Gene.Symbol %in% at_least_2_tumor_list[,1] == TRUE) %>% 
-  filter(CV >= 0.5) %>% 
-  select()
+  select(ID, Gene.Symbol, survival_data[,1])
 
 
 
 write.csv(annotated_expression_data_with_CV_filtered,
           file = "annotated_expression_data_with_CV_filtered.csv")
+write.csv(annotated_expression_data_filtered,
+          file = "annotated_expression_data_filtered.csv")
