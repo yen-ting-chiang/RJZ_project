@@ -1,4 +1,4 @@
-setwd("C:/Users/dannyj/Documents/Rproject/RJZ_project/world_cloud_by_allele_frequency")
+setwd("C:/Users/danny/OneDrive - 中國醫藥大學/文件/R_project/RJZ_project/word_cloud")
 getwd()
 library(dplyr)
 
@@ -69,7 +69,7 @@ library(wordcloud2)
 T2_allele_frequency_sum_top <- T2_allele_frequency_sum %>% 
   head(30)
 wordcloud2(data = T2_allele_frequency_sum_top, 
-                      size = 0.5,
+                      size = 0.3,
                       fontFamily = 'Arial',
                       shuffle = 'FALSE',
                       color = 'random-dark',
@@ -78,7 +78,7 @@ wordcloud2(data = T2_allele_frequency_sum_top,
 T4_allele_frequency_sum_top <- T4_allele_frequency_sum %>% 
   head(30)
 wordcloud2(data = T4_allele_frequency_sum_top, 
-           size = 0.3,
+           size = 0.2,
            fontFamily = 'Arial',
            shuffle = 'FALSE',
            color = 'random-dark',
@@ -88,7 +88,7 @@ wordcloud2(data = T4_allele_frequency_sum_top,
 T5_allele_frequency_sum_top <- T5_allele_frequency_sum %>% 
   head(30)
 wordcloud2(data = T5_allele_frequency_sum_top, 
-           size = 0.5,
+           size = 0.3,
            fontFamily = 'Arial',
            shuffle = 'FALSE',
            color = 'random-dark',
