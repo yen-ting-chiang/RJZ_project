@@ -38,4 +38,35 @@ combo_data <- purrr::map_df(filenames,
 
 write.csv(combo_data, 
           file = "gene_list_combo_data.csv")
+# combo_data = read.csv(file = "gene_list_combo_data.csv")
+
+expression_data <- 
+  read.csv("OB FKPM more than 1 gene list.csv")
+
+combo_data_combining_expression <- 
+  left_join(combo_data, 
+            expression_data, 
+            by = c("Gene" = "NAME"))
+write.csv(combo_data_combining_expression, 
+          file = "combo_data_combining_expression.csv")
+
+combo_data_combining_expression_D0_D24 <- 
+  left_join(combo_data, 
+            expression_data[,-(3:46)], 
+            by = c("Gene" = "NAME"))
+write.csv(combo_data_combining_expression_D0_D24, 
+          file = "combo_data_combining_expression_D0_D24.csv")
+
 combo_data = read.csv(file = "gene_list_combo_data.csv")
+
+combo_data_filtered <- combo_data %>% 
+  filter(filename != "LFS-OBD7-MSC.anno_YTC.csv") %>% 
+  dplyr::filter(!grepl(",",Gene)) %>% 
+  group_by(Gene) %>% 
+  summarise(allele_frequency_sum = sum(tumor))
+colnames(combo_data_filtered) <- c("Gene", "number")
+combo_data_filtered <- combo_data_filtered %>% 
+  arrange(desc(number))
+write.csv(combo_data_filtered, file = "T2_T4_T5_allele_frequency_sum.csv")
+
+
