@@ -41,10 +41,14 @@ lolliplot(sample.gr,
           xaxis = xaxis,
           yaxis = FALSE,
           type="circle",
-          cex = 0.8,
+          cex = 0.4,
           jitter="label",
           ylab="Count",
           yaxis.gp = gpar(fontsize=5, lwd=0),
           xaxis.gp = gpar(fontsize=10, lwd=0),
-          label_on_feature = TRUE,
+          label_on_feature = FALSE,
           legend="legend")
+png("testplottt2.png", width=1433, height = 765)
+dev.off()
+
+
