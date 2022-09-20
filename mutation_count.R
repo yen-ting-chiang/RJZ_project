@@ -9,6 +9,7 @@ colnames(df2) <- c("Gene", "number")
 df2 <- df2 %>% 
   arrange(desc(number))
 write.csv(df2, file = "mutation_count.csv")
+<<<<<<< HEAD
 
 
 df <- read.csv(file = "combo_data_combining_expression_D0_D24.csv")
@@ -19,3 +20,5 @@ colnames(df2) <- c("Gene", "number")
 df2 <- df2 %>% 
   arrange(desc(number))
 write.csv(df2, file = "mutation_count_all.csv")
+=======
+>>>>>>> a255457fcc96cbe8dc6e6e1b44193d0c60adb3c3
