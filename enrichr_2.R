@@ -164,6 +164,9 @@ write.csv(for_heatmap_0.1, file = "for_heatmap_0.1.csv")
 library(pheatmap)
 library(RColorBrewer)
 
+setwd("C:/Users/danny/OneDrive - 中國醫藥大學/文件/R_project/RJZ_project/enrichr_2")
+getwd()
+
 for_heatmap_selected <- 
   read.csv(file = "for_heatmap_selected.csv", 
            header = T)
@@ -181,7 +184,7 @@ pheatmap(for_heatmap_selected_tmp,
                                                  name = "Reds"))(100),
          cluster_rows=FALSE, 
          cluster_cols=FALSE,
-         gaps_row=(c(9,13,17,22,27)),
+         gaps_row=(c(9,13,18,22,27)),
          border_color = "#A0A0A0",
          na_col = "#E0E0E0",
          show_rownames = FALSE)

@@ -94,6 +94,24 @@ wordcloud2(data = T5_allele_frequency_sum_top,
            color = 'random-dark',
            shape = 'circle')
 
+#all
+setwd("C:/Users/danny/OneDrive - 中國醫藥大學/文件/R_project/RJZ_project/word_cloud")
+getwd()
+library(dplyr)
+library(wordcloud2)
+T_all_allele_frequency_sum <- read.csv("T2_T4_T5_allele_frequency_sum.csv")
+T_all_allele_frequency_sum_top <- T_all_allele_frequency_sum %>% 
+  head(30)
+T_all_allele_frequency_sum_top <- T_all_allele_frequency_sum_top[,-1]
+wordcloud2(data = T_all_allele_frequency_sum_top, 
+           size = 0.3,
+           fontFamily = 'Arial',
+           shuffle = 'FALSE',
+           color = 'random-dark',
+           shape = 'circle')
+
+
+
 #wordcloud package-----------------------------------------------------------
 # set.seed(1234) # for reproducibility
 # wordcloud(words = T2_allele_frequency_sum$Gene,
