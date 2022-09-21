@@ -1,17 +1,7 @@
-library(dplyr)
-setwd("C:/Users/danny/OneDrive - 中國醫藥大學/文件/R_project/RJZ_project/OB_mutation_type_figure")
+setwd("C:/Users/danny/OneDrive - 中國醫藥大學/文件/R_project/RJZ_project/OB_allele_frequency_figure")
 getwd()
 
-filenames  <- list.files(pattern = "-MSC.anno_YTC.csv")
-
-combo_data_no_filter <- purrr::map_df(filenames,
-                            ~read.csv(.x, stringsAsFactors = FALSE,
-                                      colClasses = "character") %>% 
-                              mutate(filename = .x))
-
-write.csv(combo_data_no_filter, 
-          file = "gene_list_combo_data_no_filter.csv")
-combo_data_no_filter = read.csv(file = "gene_list_combo_data_no_filter.csv")
+combo_data = read.csv(file = "gene_list_combo_data.csv")
 
 library(ggplot2)
 
@@ -45,56 +35,57 @@ theme_Publication <- function(base_size=14, base_family="helvetica") {
     ))
   
 }
-
 scale_fill_Publication <- function(...){
   library(scales)
   discrete_scale("fill","Publication",manual_pal(values = c("#386cb0","#fdb462","#7fc97f","#ef3b2c","#662506","#a6cee3","#fb9a99","#984ea3","#ffff33")), ...)
   
 }
-
 scale_colour_Publication <- function(...){
   library(scales)
   discrete_scale("colour","Publication",manual_pal(values = c("#386cb0","#fdb462","#7fc97f","#ef3b2c","#662506","#a6cee3","#fb9a99","#984ea3","#ffff33")), ...)
   
 }
 
+combo_data$filename <- 
+  factor(combo_data$filename, 
+         levels = c("LFS-OBD7-MSC.anno_YTC.csv", 
+                    "LFS-T2-MSC.anno_YTC.csv", 
+                    "LFS-T4-MSC.anno_YTC.csv", 
+                    "LFS-T5-MSC.anno_YTC.csv"))
+levels(combo_data$filename)
 
-ggplot(data = combo_data_no_filter) + 
-  geom_bar(aes(x = filename, 
-               fill = RefGene),
-           position = "stack",
-           alpha = 0.8) + 
-  scale_fill_manual(values = c("#a6cee3","#1f78b4","#b2df8a",
-                               "#33a02c","#fb9a99","#e31a1c",
-                               "#fdbf6f","#ff7f00","#cab2d6",
-                               "#6a3d9a","#ffff99","#b15928",
-                               "#543005")) + 
-  scale_color_manual(values = c("#a6cee3","#1f78b4","#b2df8a",
-                                "#33a02c","#fb9a99","#e31a1c",
-                                "#fdbf6f","#ff7f00","#cab2d6",
-                                "#6a3d9a","#ffff99","#b15928",
-                                "#543005")) +
+ggplot(data = combo_data) + 
+  geom_density(aes(x = tumor, 
+                   fill = filename),
+               alpha = 0.8) +
+  scale_colour_Publication() + 
+  scale_fill_Publication() + 
   theme_Publication() + 
   theme(panel.border = 
           element_rect(colour = "black", 
                        fill = NA, 
                        size = 1))
 
-ggplot(data = combo_data_no_filter) + 
-  geom_bar(aes(x = filename, 
-               fill = RefGene),
-           position = "fill",
-           alpha = 0.8) + 
-  scale_fill_manual(values = c("#a6cee3","#1f78b4","#b2df8a",
-                               "#33a02c","#fb9a99","#e31a1c",
-                               "#fdbf6f","#ff7f00","#cab2d6",
-                               "#6a3d9a","#ffff99","#b15928",
-                               "#543005")) + 
-  scale_color_manual(values = c("#a6cee3","#1f78b4","#b2df8a",
-                                "#33a02c","#fb9a99","#e31a1c",
-                                "#fdbf6f","#ff7f00","#cab2d6",
-                                "#6a3d9a","#ffff99","#b15928",
-                                "#543005")) +
+ggplot(data = combo_data) + 
+  geom_histogram(aes(x = tumor, 
+                     fill = filename),
+                 alpha = 0.8) + 
+  facet_grid(cols = vars(filename)) + 
+  scale_colour_Publication() + 
+  scale_fill_Publication() + 
+  theme_Publication() + 
+  theme(panel.border = 
+          element_rect(colour = "black", 
+                       fill = NA, 
+                       size = 1))
+
+ggplot(data = combo_data) + 
+  geom_violin(aes(x = filename, 
+                  y = tumor,
+                  fill = filename),
+              alpha = 0.8) + 
+  scale_colour_Publication() + 
+  scale_fill_Publication() + 
   theme_Publication() + 
   theme(panel.border = 
           element_rect(colour = "black", 
