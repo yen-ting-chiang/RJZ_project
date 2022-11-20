@@ -91,3 +91,21 @@ ggplot(data = combo_data) +
           element_rect(colour = "black", 
                        fill = NA, 
                        size = 1))
+
+ggplot(combo_data, aes(x= filename, y=tumor,
+                       fill = filename)) + 
+  geom_boxplot(alpha = 0.8) + 
+  xlab("filename")+ 
+  scale_colour_Publication() + 
+  scale_fill_Publication() + 
+  theme_Publication() + 
+  theme(panel.border = 
+          element_rect(colour = "black", 
+                       fill = NA, 
+                       size = 1))
+
+
+library(dplyr)
+combo_data %>% 
+  group_by(filename) %>% 
+  summarise(median(tumor))

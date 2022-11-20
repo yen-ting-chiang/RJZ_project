@@ -11,8 +11,15 @@ top_30 <- allele_frequency[-16,] %>%
 gene_order <- top_30$Gene 
 cooccurrence_TP53 <- cooccurrence_TP53 %>% 
   arrange(factor(B, levels = gene_order))
+
+cooccurrence_YTHDF2 <- 
+  read.csv(file = "cooccurrence_YTHDF2.csv")
+
+cooccurrence_TP53_2 <- 
+  rbind(cooccurrence_YTHDF2, cooccurrence_TP53)
+
 cooccurrence_TP53_for_heatmap <- 
-  cooccurrence_TP53 %>% 
+  cooccurrence_TP53_2 %>% 
   select(c(2,7))
 
 library(pheatmap)
@@ -25,11 +32,9 @@ cooccurrence_TP53_for_heatmap_tmp <-
 row.names(cooccurrence_TP53_for_heatmap_tmp) = 
   cooccurrence_TP53_for_heatmap[,1]
 
-cooccurrence_TP53_for_heatmap_tmp[27,1] <- NA
-cooccurrence_TP53_for_heatmap_tmp[7,1] <- NA
+cooccurrence_TP53_for_heatmap_tmp[28,1] <- NA
+cooccurrence_TP53_for_heatmap_tmp[8,1] <- NA
 
-cooccurrence_TP53_for_heatmap_tmp <- 
-  log10(cooccurrence_TP53_for_heatmap_tmp)
 pheatmap(cooccurrence_TP53_for_heatmap_tmp,
          color = colorRampPalette(brewer.pal(n =9, 
                                              name = "Greens"))(100),
@@ -37,5 +42,5 @@ pheatmap(cooccurrence_TP53_for_heatmap_tmp,
          cluster_cols=FALSE,
          border_color = "#A0A0A0",
          na_col = "#E0E0E0",
-         show_rownames = TRUE,
+         show_rownames = FALSE,
          show_colnames = FALSE)
