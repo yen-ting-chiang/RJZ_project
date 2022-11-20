@@ -247,9 +247,9 @@ plotting_H_ <- ggplot(data = GSEA_shARID1B_vs_con_H_v2022_filtered,
 
 
 png("GSEA_shARID1B_vs_con_H_v2022.png",
-    width = 3000,
+    width = 5000,
     height = 3000,
-    res = 600)
+    res = 900)
 plotting_H_
 dev.off()
 
@@ -318,9 +318,9 @@ plotting_H_ <- ggplot(data = GSEA_shZFHX3_vs_con_H_v2022_filtered,
 
 
 png("GSEA_shZFHX3_vs_con_H_v2022.png",
-    width = 3000,
+    width = 5000,
     height = 3000,
-    res = 600)
+    res = 900)
 plotting_H_
 dev.off()
 
