@@ -46,7 +46,10 @@ m6A_gene_order <-
 gene_order <- m6A_gene_order$Gene 
 
 
+
 clean_df_t <- as.data.frame(t(clean_df))
+
+
 clean_df_t_tmp = 
   clean_df_t[-1,]
 colnames(clean_df_t_tmp) <- clean_df_t[1,]
@@ -58,8 +61,16 @@ clean_df_t_tmp <- clean_df_t_tmp %>%
 library(pheatmap)
 library(RColorBrewer)
 
+
+# add TARGET OS data manually
+# clean_df_t_tmp <-
+#   read.csv(file=
+#              "clean_df_t_tmp_tmp_manually_add_TARGETG_OS.csv",
+#            check.names=FALSE)
+
+
 clean_df_t_tmp_tmp = 
-  clean_df_t_tmp[,c(2:33)]
+  clean_df_t_tmp[,c(2:34)]
 row.names(clean_df_t_tmp_tmp) = 
   clean_df_t_tmp[,1]
 
@@ -75,11 +86,11 @@ plot_heatmap <- pheatmap(clean_df_t_tmp_tmp,
          na_col = "#E0E0E0",
          show_rownames = TRUE,
          show_colnames = TRUE,
-         fontsize_row = 5,
-         fontsize_col = 5,
+         fontsize_row = 7,
+         fontsize_col = 7,
          gaps_row = c(6,8))
 
-png("m6A_mutation_rate_across_cancer_type_heatmap.png",
+png("m6A_mutation_rate_across_cancer_type_heatmap_add_target.png",
     width = 5000,
     height = 3000,
     res = 600)
