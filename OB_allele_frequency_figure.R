@@ -109,3 +109,62 @@ library(dplyr)
 combo_data %>% 
   group_by(filename) %>% 
   summarise(median(tumor))
+
+
+
+library(palmerpenguins)
+library(ggstatsplot)
+plt2 <- ggbetweenstats(
+  data = combo_data,
+  x = filename, 
+  y = tumor,
+  pairwise.comparisons = TRUE
+)
+
+plt2 <- plt2 + 
+  # Add labels and title
+  labs(
+    x = "Samples",
+    y = "Allele Frequency",
+    title = "Distribution of Allele Frequency across Samples"
+  ) + 
+  # Customizations
+  theme(
+    # This is the new default font in the plot
+    text = element_text(family = "sans", size = 8, color = "black"),
+    plot.title = element_text(
+      family = "sans", 
+      size = 20,
+      face = "bold",
+      color = "#2a475e"
+    ),
+    # Statistical annotations below the main title
+    plot.subtitle = element_text(
+      family = "sans", 
+      size = 15, 
+      face = "bold",
+      color="#1b2838"
+    ),
+    plot.title.position = "plot", # slightly different from default
+    axis.text = element_text(size = 10, color = "black"),
+    axis.title = element_text(size = 12)
+  )
+
+plt2 <- plt2  +
+  theme(
+    axis.ticks = element_blank(),
+    axis.line = element_line(colour = "grey50"),
+    panel.grid = element_line(color = "#b4aea9"),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.major.y = element_line(linetype = "dashed"),
+    panel.background = element_rect(fill = "white", color = "white"),
+    plot.background = element_rect(fill = "white", color = "white")
+  )
+
+plt2
+ggsave(
+  filename = "web-violinplot-with-ggstatsplot.png",
+  plot = plt2,
+  dpi=300, height=5, width=8, units="in"
+)
